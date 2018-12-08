@@ -1,5 +1,7 @@
 package com.alexa.datastructures.list;
 
+import java.util.StringJoiner;
+
 public class ArrayList implements List {
     private static final int DEFAULT_CAPACITY = 5;
     private Object[] array;
@@ -21,7 +23,7 @@ public class ArrayList implements List {
 
     @Override
     public void add(Object value, int index) {
-        if (index > size) {
+        if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -29,51 +31,32 @@ public class ArrayList implements List {
             extendArray();
         }
 
-        for (int i = size - 1; i >= index; i--) {
-            array[i + 1] = array[i];
-        }
+        System.arraycopy(array, index, array, index + 1, size - index);
 
         array[index] = value;
         size++;
     }
 
-    private void extendArray() {
-        int newCapacity = (int) (array.length * 1.5);
-        Object[] newArray = new Object[newCapacity];
-
-        for (int index = 0; index < size; index++) {
-            Object value = array[index]; // Get value from old array
-            newArray[index] = value; // Set value to new array
-        }
-
-        array = newArray;
-    }
-
     @Override
     public Object remove(int index) {
+        validationIndex(index);
+
         Object prev = array[index];
-
-        for (int i = index; i < size; i++) {
-            array[i] = array[i + 1];
-        }
+        System.arraycopy(array, index + 1, array, index, size - index);
         array[size - 1] = null;
-
+        size--;
         return prev;
     }
 
     @Override
     public Object get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException();
-        }
-        return array[index];
+       validationIndex(index);
+       return array[index];
     }
 
     @Override
     public Object set(Object value, int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException();
-        }
+        validationIndex(index);
 
         Object prev = array[index];
 
@@ -96,56 +79,76 @@ public class ArrayList implements List {
 
     @Override
     public boolean isEmpty() {
-        for (int index = 0; index < size; index++) {
-            if (array[index] != null) {
-                return false;
-            }
-        }
-        return true;
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object value) {
-        for (int index = 0; index < size; index++) {
-            Object arrayValue = array[index];
-            if (arrayValue.equals(value)) { // Read about Object.equals()
-                return true;
-            }
-        }
-        return false;
+        return indexOf(value) != -1;
     }
 
     @Override
     public int indexOf(Object value) {
-        for (int index = 0; index < size; index++) {
-            if (array[index].equals(value)) {
-                return index;
+        if (value == null) {
+            for (int index = 0; index < size; index++) {
+                if (array[index] == null) {
+                    return index;
+                }
+            }
+        } else {
+            for (int index = 0; index < size; index++) {
+                if (value.equals(array[index])) {
+                    return index;
+                }
             }
         }
         return -1;
     }
 
     @Override
-    public int lastIndexOf(Object value) {
-        for (int index = size - 1; index >= 0; index--) {
-            if (array[index].equals(value)) {
-                return index;
+    public int lastIndexOf(Object value){
+        if (value == null) {
+            for (int index = size - 1; index >= 0; index--) {
+                if (array[index] == null) {
+                    return index;
+                }
+            }
+        } else {
+            for (int index = size - 1; index >= 0; index--) {
+                if (value.equals(array[index])) {
+                    return index;
+                }
             }
         }
         return -1;
+    }
+
+    private void extendArray() {
+        int newCapacity = (int) (array.length * 1.5);
+        Object[] newArray = new Object[newCapacity];
+
+        System.arraycopy(array, 0, newArray, 0, size);
+
+        array = newArray;
+    }
+
+    private void validationIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
     public String toString() {
-        String result = "[";
-        for (int i = 0; i < size - 1; i++) {
-            result = result + array[i] + ", ";
+        StringJoiner result = new StringJoiner(", ", "[", "]");
+        for (int i = 0; i < size; i++) {
+            String newElement = String.valueOf(array[i]); // Мы обезопасываем себя NullPointerException
+            result.add(newElement);
         }
-
-        if (size != 0) {
-            result = result + array[size - 1];
-        }
-        return result + "]";
+        return result.toString();
     }
 
 }
+
+
+
