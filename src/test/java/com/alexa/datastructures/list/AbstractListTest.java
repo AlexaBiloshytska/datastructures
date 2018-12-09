@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -167,5 +169,22 @@ public abstract class AbstractListTest {
         Assert.assertTrue(containsState);
 
 
+    }
+
+    @Test
+    public void iteratorTest(){
+        list.add("A");
+        list.add("B");
+
+
+//        System.out.println("Ext");
+//        for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {
+//            System.out.println(iterator.next());
+//        }
+//
+//        System.out.println("Ext");
+        for (Object o : list) {
+            System.out.println(o);
+        }
     }
 }

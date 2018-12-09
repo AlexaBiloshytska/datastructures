@@ -1,5 +1,6 @@
 package com.alexa.datastructures.list;
 
+import java.util.Iterator;
 import java.util.StringJoiner;
 
 public class ArrayList implements List {
@@ -148,6 +149,26 @@ public class ArrayList implements List {
         return result.toString();
     }
 
+    @Override
+    public Iterator iterator() {
+        return new ArrayListIterator();
+    }
+
+    class ArrayListIterator implements Iterator {
+        private int index;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public Object next() {
+            Object object = array[index];
+            index++;
+            return object;
+        }
+    }
 }
 
 

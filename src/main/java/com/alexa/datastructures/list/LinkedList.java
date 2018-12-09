@@ -1,6 +1,7 @@
 package com.alexa.datastructures.list;
 
 import javax.print.attribute.standard.NumberUp;
+import java.util.Iterator;
 import java.util.StringJoiner;
 
 public class LinkedList implements List{
@@ -174,6 +175,11 @@ public class LinkedList implements List{
         return result.toString();
     }
 
+    @Override
+    public Iterator iterator() {
+        return new LinkedListIterator();
+    }
+
     class Node {
         private Node next;
         private Node previous;
@@ -205,6 +211,26 @@ public class LinkedList implements List{
 
         public void setValue(Object value) {
             this.value = value;
+        }
+    }
+
+    private class LinkedListIterator implements Iterator {
+        private Node currentNode = head;
+
+        @Override
+        public boolean hasNext() {
+            if (head == null) {
+                return false;
+            }
+
+            return currentNode != null;
+        }
+
+        @Override
+        public Object next() {
+           Object value = currentNode.getValue();
+           currentNode = currentNode.getNext();
+           return value;
         }
     }
 }

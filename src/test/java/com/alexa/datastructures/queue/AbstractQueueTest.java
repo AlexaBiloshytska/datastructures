@@ -49,4 +49,21 @@ public abstract class AbstractQueueTest {
         assertEquals(null, emptyQueue.peek());
 
     }
+
+    @Test
+    public void iteratorTest(){
+        queue.enqueue("A");
+        queue.enqueue("B");
+
+
+//        System.out.println("Ext");
+//        for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {
+//            System.out.println(iterator.next());
+//        }
+//
+//        System.out.println("Ext");
+        for (Object o : queue ) {
+            System.out.println(o);
+        }
+    }
 }

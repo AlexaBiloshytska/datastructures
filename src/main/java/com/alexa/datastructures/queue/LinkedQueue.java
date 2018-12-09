@@ -1,5 +1,9 @@
 package com.alexa.datastructures.queue;
 
+import com.alexa.datastructures.list.LinkedList;
+
+import java.util.Iterator;
+
 public class LinkedQueue implements Queue {
 
     private Node head;
@@ -47,6 +51,30 @@ public class LinkedQueue implements Queue {
             return null;
         } else {
             return head.getValue();
+        }
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new LinkedQueueIterator();
+    }
+
+    private class LinkedQueueIterator implements Iterator {
+        private Node currentNode = head;
+        @Override
+        public boolean hasNext() {
+            if (head == null) {
+                return false;
+            }
+
+            return currentNode != null;
+        }
+
+        @Override
+        public Object next() {
+            Object value = currentNode.getValue();
+            currentNode = currentNode.getNext();
+            return value;
         }
     }
 }

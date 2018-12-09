@@ -1,7 +1,8 @@
 package com.alexa.datastructures.queue;
 
-public class ArrayQueue implements Queue {
-    private int index;
+import java.util.Iterator;
+
+public class ArrayQueue implements Queue  {
     private int size;
     private Object [] array;
     private static final int DEFAULT_CAPACITY = 5;
@@ -44,5 +45,26 @@ public class ArrayQueue implements Queue {
     @Override
     public Object peek() {
         return array[0];
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new ArrayQueueIterator();
+    }
+
+    class ArrayQueueIterator implements Iterator{
+        private int index;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public Object next() {
+            Object object = array[index];
+            index++;
+            return object;
+        }
     }
 }
