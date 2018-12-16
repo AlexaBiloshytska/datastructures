@@ -31,21 +31,24 @@ public class LinkedList implements List{
         validationIndex(index);
         Node node = new Node(value);
 
-        if (head == null){
+        if (size == 0 ){
+            head = node;
+            tail = node;
+        } else if (index == 0) {
+            node.next = head;
+            head.previous = node;
             head = node;
         } else {
-            Node nextNode = head;
-            for (int i = 0; i < index; i++) {
-                nextNode = nextNode.getNext();
+            Node pointer = getNode(index -1);
+            if (pointer.next != null) {
+                Node nextNode = pointer.next;
+                nextNode.previous = node;
+                node.next = nextNode;
+            } else {
+                tail = node;
             }
-            Node prevNode = nextNode.getPrevious();
-
-            // Relink nodes
-            nextNode.setPrevious(node);
-            prevNode.setNext(node);
-
-            node.setPrevious(prevNode);
-            node.setNext(nextNode);
+            pointer.next = node;
+            node.previous = pointer;
         }
         size++;
     }
@@ -96,7 +99,7 @@ public class LinkedList implements List{
 
     @Override
     public void clear() {
-        head = null;
+        head = tail = null;
         size = 0;
     }
 
@@ -162,6 +165,16 @@ public class LinkedList implements List{
             throw new IndexOutOfBoundsException();
         }
     }
+
+    private Node getNode(int index) {
+        Node nextNode = head;
+        for (int i = 0; i < index; i++) {
+            nextNode = nextNode.getNext();
+        }
+        return nextNode;
+    }
+
+
 
     @Override
     public String toString() {

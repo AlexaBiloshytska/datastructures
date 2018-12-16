@@ -125,7 +125,7 @@ public class ArrayList implements List {
     }
 
     private void extendArray() {
-        int newCapacity = (int) (array.length * 1.5);
+        int newCapacity = (int) (array.length * 1.5 )+1;
         Object[] newArray = new Object[newCapacity];
 
         System.arraycopy(array, 0, newArray, 0, size);
