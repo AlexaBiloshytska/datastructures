@@ -56,19 +56,16 @@ public class LinkedList implements List{
     @Override
     public Object remove(int index) {
         validationIndex(index);
-        Node reqiredNode = head;
-        for (int i = 0; i < index; i++){
-            reqiredNode = reqiredNode.getNext();
-        }
-        Node next = reqiredNode.getNext();
-        Node prev = reqiredNode.getPrevious();
+        Node requiredNode = getNode(index);
+        Node next = requiredNode.getNext();
+        Node prev = requiredNode.getPrevious();
         prev.setNext(next);
         next.setPrevious(prev);
 
-        reqiredNode.setNext(null);
-        reqiredNode.setPrevious(null); // removed loitering!!
+        requiredNode.setNext(null);
+        requiredNode.setPrevious(null); // removed loitering!!
 
-        Object  value = reqiredNode.getValue();
+        Object  value = requiredNode.getValue();
         size--;
         return value;
     }
@@ -77,10 +74,7 @@ public class LinkedList implements List{
     public Object get(int index) {
         validationIndex(index);
 
-        Node requiredNode = head;
-        for (int i = 0; i < index; i++){
-            requiredNode = requiredNode.getNext();
-        }
+        Node requiredNode = getNode(index);
         return requiredNode.getValue();
     }
 
@@ -88,10 +82,8 @@ public class LinkedList implements List{
     public Object set(Object value, int index) {
         validationIndex(index);
 
-        Node reqiredNode = head;
-        for (int i = 0; i < index; i++) {
-            reqiredNode = reqiredNode.getNext();
-        }
+        Node reqiredNode = getNode(index);
+        
         Object prevValue = reqiredNode.getValue();
         reqiredNode.setValue(value);
         return prevValue;
@@ -167,11 +159,20 @@ public class LinkedList implements List{
     }
 
     private Node getNode(int index) {
-        Node nextNode = head;
-        for (int i = 0; i < index; i++) {
-            nextNode = nextNode.getNext();
+        if (index < size/2) {
+            Node nextNode = head;
+            for (int i = 0; i < index; i++) {
+                nextNode = nextNode.getNext();
+            }
+            return nextNode;
+        } else {
+            Node prevNode = tail;
+            for (int i = size-1; i > index; i--) {
+                prevNode = prevNode.getPrevious();
+            }
+            return prevNode;
         }
-        return nextNode;
+
     }
 
 
