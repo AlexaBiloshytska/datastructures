@@ -9,9 +9,9 @@ public interface Map {
     Object remove (Object key);
     // return value which was here
 
-    Object contains (Object key);
+    boolean contains (Object key);
 
-    boolean putIfAbsent(Object key, Object value);
+    Object putIfAbsent(Object key, Object value);
     //return the element which now is in the method or the inserted element
 
     int size();

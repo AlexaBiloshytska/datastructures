@@ -1,59 +1,69 @@
 package com.alexa.datastructures.map;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HashMap implements Map{
-    private List<Entry> list = new ArrayList<>();
+    private Entry[] buckets;
+    private static final int DEFAULT_CAPACITY = 5;
+
+    public HashMap() {
+        buckets = new Entry[DEFAULT_CAPACITY];
+    }
+
+    public HashMap(int capacity) {
+        buckets = new Entry[capacity];
+    }
+
 
     // O(n) -> O(1)
     @Override
     public Object put(Object key, Object value) {
-        for (Entry entry : list){
-            if (entry.getKey().equals(key)){
-                Object prevValue = entry.getValue();
-                entry.setValue(value);
-                return prevValue;
-            }
-
-        }
-        list.add(new Entry(key, value));
-        return null;
+        int index = key.hashCode() % buckets.length;
+        Object prevValue = buckets[index];
+        buckets[index] = new Entry(key, value);
+        return prevValue;
     }
+
 
 
     @Override
     public Object get(Object key) {
-        for (Entry entry : list){
-            if (entry.key.equals(key)){
-                return entry.value;
-            }
-
-        }
-
-        return null;
+        int index = key.hashCode() % buckets.length;
+        Entry entry = buckets[index];
+        return entry.getValue();
     }
 
     @Override
     public Object remove(Object key) {
-        return null;
+        int index = key.hashCode() % buckets.length;
+        Entry entry = buckets[index];//wrapper
+        buckets[index] = null;//link
+        return entry.getValue();
     }
 
     @Override
-    public Object contains(Object key) {
-        return null;
+    public boolean contains(Object key) {
+        int index = key.hashCode() % buckets.length;
+        return buckets[index] != null;
     }
 
     @Override
-    public boolean putIfAbsent(Object key, Object value) {
+    public Object putIfAbsent(Object key, Object value) {
+        int index = key.hashCode() % buckets.length;
+        Entry entry = buckets[index];
+        if ( entry == null) {
+            return entry.getValue();
+        }
 
-        return false;
+        return put(key, value);
     }
 
     @Override
     public int size() {
-        return 0;
+        return buckets.length;
     }
 
     class Entry {
