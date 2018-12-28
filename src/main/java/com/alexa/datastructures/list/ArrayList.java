@@ -3,27 +3,30 @@ package com.alexa.datastructures.list;
 import java.util.Iterator;
 import java.util.StringJoiner;
 
-public class ArrayList implements List {
+public class ArrayList<T> implements List<T> {
+    private T t;
     private static final int DEFAULT_CAPACITY = 5;
-    private Object[] array;
+    private T[] array;
     private int size;
 
     public ArrayList() {
-        array = new Object[DEFAULT_CAPACITY];
+        array = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
+
     public ArrayList(int capacity) {
-        array = new Object[capacity];
+
+        array = (T[]) new Object[capacity];
     }
 
 
     @Override
-    public void add(Object value) {
+    public void add(T value) {
         add(value, size);
     }
 
     @Override
-    public void add(Object value, int index) {
+    public void add(T value, int index) {
         if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -39,10 +42,10 @@ public class ArrayList implements List {
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         validationIndex(index);
 
-        Object prev = array[index];
+        T prev = array[index];
         System.arraycopy(array, index + 1, array, index, size - index);
         array[size - 1] = null;
         size--;
@@ -50,16 +53,16 @@ public class ArrayList implements List {
     }
 
     @Override
-    public Object get(int index) {
-       validationIndex(index);
-       return array[index];
+    public T get(int index) {
+        validationIndex(index);
+        return array[index];
     }
 
     @Override
-    public Object set(Object value, int index) {
+    public T set(T value, int index) {
         validationIndex(index);
 
-        Object prev = array[index];
+        T prev = array[index];
 
         array[index] = value;
         return prev;
@@ -84,12 +87,12 @@ public class ArrayList implements List {
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(T value) {
         return indexOf(value) != -1;
     }
 
     @Override
-    public int indexOf(Object value) {
+    public int indexOf(T value) {
         if (value == null) {
             for (int index = 0; index < size; index++) {
                 if (array[index] == null) {
@@ -107,7 +110,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public int lastIndexOf(Object value){
+    public int lastIndexOf(Object value) {
         if (value == null) {
             for (int index = size - 1; index >= 0; index--) {
                 if (array[index] == null) {
@@ -125,8 +128,8 @@ public class ArrayList implements List {
     }
 
     private void extendArray() {
-        int newCapacity = (int) (array.length * 1.5 )+1;
-        Object[] newArray = new Object[newCapacity];
+        int newCapacity = (int) (array.length * 1.5) + 1;
+        T[] newArray = (T[]) new Object[newCapacity];
 
         System.arraycopy(array, 0, newArray, 0, size);
 

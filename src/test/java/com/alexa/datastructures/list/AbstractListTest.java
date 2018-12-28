@@ -12,9 +12,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public abstract class AbstractListTest {
-    private List list = getList();
+    private List<Character> list = getList();
 
-    protected abstract List getList();
+    protected abstract List<Character> getList();
 
     @Before
     public void testBeforeOther() {
@@ -149,7 +149,7 @@ public abstract class AbstractListTest {
 
     @Test
     public void testListWithDocumentEntity(){
-        ArrayList documentList = new ArrayList();
+        List<Document> documentList = new ArrayList<>();
 
         Document visa = new Document(1, "visa", "visa granted");
         Document certificate  = new Document(2, "marriage", "03.06.2017");
@@ -173,8 +173,8 @@ public abstract class AbstractListTest {
 
     @Test
     public void iteratorTest(){
-        list.add("A");
-        list.add("B");
+        list.add('A');
+        list.add('B');
 
 
 //        System.out.println("Ext");
@@ -187,4 +187,6 @@ public abstract class AbstractListTest {
             System.out.println(o);
         }
     }
+
+
 }

@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class ArrayListTest extends AbstractListTest{
 
     @Override
-    protected List getList() {
-        return new ArrayList();
+    protected List<Character> getList() {
+        return new ArrayList<Character>();
     }
 }

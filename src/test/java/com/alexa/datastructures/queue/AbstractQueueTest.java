@@ -33,8 +33,6 @@ public abstract class AbstractQueueTest {
         assertEquals('b', queue.dequeue());
 
         assertEquals(4, queue.size());
-
-
     }
 
     @Test

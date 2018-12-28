@@ -4,18 +4,18 @@ import com.alexa.datastructures.list.LinkedList;
 
 import java.util.Iterator;
 
-public class LinkedQueue implements Queue {
+public class LinkedQueue<T> implements Queue<T>{
 
-    private Node head;
+    private Node<T> head;
     private int size;
 
     @Override
-    public void enqueue(Object value) {
-        Node newNode = new Node(value);
+    public void enqueue(T value) {
+        Node<T> newNode = new Node<>(value);
         if (head == null) {
             head = newNode;
         } else {
-            Node pointer = head;
+            Node<T> pointer = head;
             while (pointer.getNext() != null) {
                 pointer = pointer.getNext();
             }
@@ -25,12 +25,12 @@ public class LinkedQueue implements Queue {
     }
 
     @Override
-    public Object dequeue() {
+    public T dequeue() {
         if (head == null) {
             throw new IllegalStateException("Queue is empty");
         }
 
-        Node pointer = head;
+        Node<T> pointer = head;
         head = pointer.getNext();
 
         pointer.setNext(null);
@@ -46,7 +46,7 @@ public class LinkedQueue implements Queue {
     }
 
     @Override
-    public Object peek() {
+    public T peek() {
         if (head == null) {
             return null;
         } else {
@@ -55,12 +55,12 @@ public class LinkedQueue implements Queue {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new LinkedQueueIterator();
     }
 
-    private class LinkedQueueIterator implements Iterator {
-        private Node currentNode = head;
+    private class LinkedQueueIterator implements Iterator<T> {
+        private Node<T> currentNode = head;
         @Override
         public boolean hasNext() {
             if (head == null) {
@@ -71,8 +71,8 @@ public class LinkedQueue implements Queue {
         }
 
         @Override
-        public Object next() {
-            Object value = currentNode.getValue();
+        public T next() {
+            T value = currentNode.getValue();
             currentNode = currentNode.getNext();
             return value;
         }

@@ -2,17 +2,18 @@ package com.alexa.datastructures.queue;
 
 import java.util.Iterator;
 
-public class ArrayQueue implements Queue  {
+public class ArrayQueue<T> implements Queue<T>  {
     private int size;
-    private Object [] array;
+    private T[] array;
     private static final int DEFAULT_CAPACITY = 5;
 
+    @SuppressWarnings("unchecked")
     public ArrayQueue() {
-        this.array = new Object[DEFAULT_CAPACITY];
+        this.array = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
     @Override
-    public void enqueue(Object value) {
+    public void enqueue(T value) {
         if (size == array.length) {
             extendArray();
         }
@@ -22,7 +23,7 @@ public class ArrayQueue implements Queue  {
 
     private void extendArray() {
         int newCapacity = (int) (array.length * 1.5);
-        Object[] newArray = new Object[newCapacity];
+        T[] newArray = (T[])new Object[newCapacity];
 
         System.arraycopy(array, 0, newArray, 0, size);
 
@@ -30,8 +31,8 @@ public class ArrayQueue implements Queue  {
     }
 
     @Override
-    public Object dequeue() {
-        Object firstElement = array[0];
+    public T dequeue() {
+        T firstElement = array[0];
         System.arraycopy(array, 1, array, 0, size-1);
         size--;
         return firstElement;
@@ -43,7 +44,7 @@ public class ArrayQueue implements Queue  {
     }
 
     @Override
-    public Object peek() {
+    public T peek() {
         return array[0];
     }
 

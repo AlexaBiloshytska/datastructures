@@ -1,11 +1,13 @@
 package com.alexa.datastructures.queue;
 
-public interface Queue extends Iterable{
-    void enqueue(Object value);
 
-    Object dequeue();
+public interface Queue <T> extends Iterable<T>{
+
+    void enqueue(T value);
+
+    T dequeue();
 
     int size();
 
-    Object peek();
+    T peek();
 }
